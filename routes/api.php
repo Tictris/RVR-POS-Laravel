@@ -28,6 +28,7 @@ Route::controller(EntranceController::class)->group(function (){
     Route::post('create-entrance', 'store');
     Route::put('add-entrance/{id}', 'add');
     Route::get('display-entrance', 'index');
+    Route::get('selected-entrance/{id}', 'edit');
 });
 
 Route::controller(ReservationController::class)->group(function (){

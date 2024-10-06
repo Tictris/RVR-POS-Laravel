@@ -22,13 +22,13 @@ class CreateEntranceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'              =>  'alpha',
+            'name'              =>  'string',
             'total'             =>  'numeric',
-            'bc'                =>  'required|array', // bc => Booked Cottages
+            'bc'                =>  'array', // bc => Booked Cottages
             'bc.*.entrance_id'  =>  'integer',
             'bc.*.cottage_id'   =>  'integer',
             'bc.*.quantity'     =>  'integer',
-            'cc'                =>  'required|array', // cc => Customers Count
+            'cc'                =>  'array', // cc => Customers Count
             'cc.*.entrance_id'  =>  'integer',
             'cc.*.customer_id'  =>  'integer',
             'cc.*.count'        =>  'integer' 

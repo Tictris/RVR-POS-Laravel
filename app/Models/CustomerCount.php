@@ -19,7 +19,7 @@ class CustomerCount extends Model
         return $this->belongsTo(Entrance::class);
     }
 
-    public function customers(){
+    public function customer(){
         return $this->belongsTo(Customer::class);
     }
 }

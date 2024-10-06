@@ -9,7 +9,6 @@ use App\Models\Cottage;
 use App\Models\Customer;
 use App\Models\CustomerCount;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class EntranceController extends Controller
 {
@@ -18,10 +17,10 @@ class EntranceController extends Controller
      */
     public function index()
     {
-        $entrance_id = Entrance::with('booked_cottages', 'customers_count')->get();
+        $entrance = Entrance::with('booked_cottages.cottage', 'customers_count.customer')->orderBy('created_at', 'desc')->paginate(10);
         
         return response()->json([
-            'entrance' => $entrance_id
+            'entrance' => $entrance
         ]);
     }
 
@@ -73,6 +72,7 @@ class EntranceController extends Controller
         }
 
         return response()->json([
+            'message'   =>  'entry added',
             'data'  =>  $data
         ], 200);
     }
@@ -132,9 +132,13 @@ class EntranceController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Entrance $entrance)
+    public function edit($id)
     {
-        //
+        $entrance = Entrance::find($id)->with('booked_cottages.cottage', 'customers_count.customer')->get();
+
+        return response()->json([
+            'selected'  => $entrance
+        ], 200);
     }
 
     /**

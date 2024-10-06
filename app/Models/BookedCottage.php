@@ -19,7 +19,7 @@ class BookedCottage extends Model
         return $this->belongsTo(Entrance::class);
     }
 
-    public function cottages(){
+    public function cottage(){
         return $this->belongsTo(Cottage::class);
     }
 }

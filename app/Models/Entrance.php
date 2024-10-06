@@ -12,7 +12,7 @@ class Entrance extends Model
     protected $fillable = [
         'name',
         'total'
-    ];
+    ];  
 
     public function booked_cottages(){
         return $this->hasMany(BookedCottage::class);

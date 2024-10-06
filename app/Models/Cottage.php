@@ -16,7 +16,7 @@ class Cottage extends Model
     ];
 
     public function booked_cottages(){
-        return $this->hasMany(BookedCottage::class);
+        return $this->hasMany(BookedCottage::class, 'cottage_id');
     }
 
     public function reserved_cottages() {
