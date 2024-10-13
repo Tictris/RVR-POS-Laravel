@@ -22,4 +22,5 @@ class Cottage extends Model
     public function reserved_cottages() {
         return $this->hasMany(ReservedCottage::class);
     }
+
 }
