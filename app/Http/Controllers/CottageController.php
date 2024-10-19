@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CottageRequest;
+
 use App\Http\Requests\CreateCottageRequest;
 use App\Http\Requests\UpdateCottageRequest;
-use Illuminate\Http\Request;
 use App\Models\Cottage;
+use Illuminate\Http\Request;
+
 
 class CottageController extends Controller
 {
@@ -15,31 +16,54 @@ class CottageController extends Controller
      */
     public function index()
     {
-        $cottage = Cottage::orderBy('created_at')->get();
-        
+
+        $cottage = Cottage::orderBy('created_at', 'desc')->paginate(10);
+
         return response()->json([
-            'message'   =>  'List of all cottages',
-            'data'      =>  $cottage
+            'message'   =>  'Cottages list',
+            'cottages'  =>  $cottage
+
         ], 200);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CottageRequest $request)
+    public function store(CreateCottageRequest $request)
+
     {
         $cottage = Cottage::create($request->validated());
 
         return response()->json([
-            'message'   => 'New Cottage Added',
-            'cottage'   =>  $cottage->fresh()
+
+            'message'   =>  'Cottages added!',
+            'cottage'   =>  $cottage
+
         ], 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+
+    public function show(Cottage $cottage)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Cottage $cottage)
+
     {
         //
     }
@@ -47,24 +71,26 @@ class CottageController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(CottageRequest $request, $id)
-    {
 
-        $cottage = Cottage::findOrFail($id);
+    public function update(UpdateCottageRequest $request, $id)
+    {
+        $cottage = Cottage::find($id);
 
         $cottage->update($request->validated());
 
-
         return response()->json([
-            'message'   =>  'Cottage details updated',
-            'cottage'   =>  $cottage
+            'message'   =>  'Cottage updated!',
+            'data'      =>  $cottage->fresh()
+
         ], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+
+    public function destroy(Cottage $cottage)
+
     {
         //
     }
