@@ -1,20 +1,28 @@
 <?php
 
+use App\Http\Controllers\EntranceController;
+use App\Http\Controllers\ReservationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CottageController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\AuthenticationController;
 
-
-// Route::get('/user', function (Request $request) {
-//     return $request->user();
-// })->middleware('auth:sanctum');
+Route::get('/user', function (Request $request) {
+    return $request->user();
+})->middleware('auth:sanctum');
 
 
 Route::controller(CustomerController::class)->group(function () {
     Route::get('display-customers', 'index');
     Route::post('create-customers', 'store');
     Route::put('update-customers/{id}', 'update');
+});
+
+Route::controller(AuthenticationController::class)->group(function (){
+    Route::post('register','register');
+    Route::post('login','login');
+    Route::post('logout','logout')->middleware('auth:api');
 });
 
 Route::controller(CottageController::class)->group(function () {
@@ -33,10 +41,4 @@ Route::controller(EntranceController::class)->group(function (){
 Route::controller(ReservationController::class)->group(function (){
     Route::post('create-reservation', 'store');
 
-});
-
-Route::controller(AuthenticationController::class)->group(function (){
-    Route::post('register','register');
-    Route::post('login','login');
-    Route::post('logout','logout')->middleware('auth:api');
 });
