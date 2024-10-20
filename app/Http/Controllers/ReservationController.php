@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateReservationRequest;
+use App\Http\Requests\UpdateReservationRequest;
 use App\Models\Reservation;
 use App\Models\ReservedCottage;
 use Illuminate\Http\Request;
@@ -14,7 +15,12 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        //
+        $reservation = Reservation::with('reserved_cottages.cottage')->orderBy('created_at', 'desc')->paginate(10);
+
+        return response()->json([
+            'message'       =>  'list of reservations',
+            'reservation'   =>  $reservation
+        ], 200);
     }
 
     /**
@@ -39,7 +45,8 @@ class ReservationController extends Controller
             'contact'       =>  $data['contact'],
             'status'        =>  $data['status'],
             'payment'       =>  $data['payment'],
-            'date_booked'   =>  $data['date_booked']
+            'date_booked'   =>  $data['date_booked'],
+            'remarks'       =>  $data['remarks']
         ]);
 
         foreach($data['rc'] as $rc){
@@ -72,9 +79,38 @@ class ReservationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Reservation $reservation)
+    public function update(UpdateReservationRequest $request, $id)
     {
-        //
+
+        $data = $request->validated();
+
+        $reservation = Reservation::with('reserved_cottages')->find($id);
+
+        $reservation->update([
+            'name'          =>  $data['name'],
+            'contact'       =>  $data['contact'],
+            'status'        =>  $data['status'],
+            'payment'       =>  $data['payment'],
+            'date_booked'   =>  $data['date_booked']
+        ]);
+
+        foreach ($data['rc'] as $rc) {
+            if ($rc['quantity'] > 0) {
+                $reservedCottage = ReservedCottage::where('reservation_id', $reservation->id)->where('cottage_id', $rc['cottage_id'])->first();
+                if ($reservedCottage) {
+                    $reservedCottage->update($rc);
+                } else {
+                    ReservedCottage::create($rc);
+                }
+            } else {
+                ReservedCottage::where('reservation_id', $reservation->id)->where('cottage_id', $rc['cottage_id'])->delete();
+            }
+        }
+
+        return response()->json([
+            'message'   =>  'Reservation Updated!',
+            'data'      =>  $data
+        ], 200);
     }
 
     /**

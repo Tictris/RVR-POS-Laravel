@@ -18,6 +18,7 @@ return new class extends Migration
             $table->enum('status', ['paid', 'partially paid', 'not paid']);
             $table->enum('payment', ['cash', 'gcash']);
             $table->date('date_booked');
+            $table->longText('remarks')->nullable();
             $table->timestamps();
         });
     }

@@ -22,15 +22,16 @@ class CreateReservationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'                  =>  ['alpha', 'required'],
-            'contact'               =>  ['string', 'required'],
-            'status'                =>  ['required'],
-            'payment'               =>  ['required'],
-            'date_booked'           =>  ['date', 'required'],
-            'rc'                    =>  ['array'],
-            'rc.*.cottage_id'       =>  ['integer'],
-            'rc.*.reservation_id'   =>  ['integer'],
-            'rc.*.quantity'         =>  ['integer']  
+            'name'                  =>  'required',
+            'contact'               =>  'required',
+            'status'                =>  'required',
+            'payment'               =>  'required',
+            'date_booked'           =>  'date',
+            'remarks'               =>  'nullable',
+            'rc'                    =>  'array',
+            'rc.*.cottage_id'       =>  'integer',
+            'rc.*.reservation_id'   =>  'integer',
+            'rc.*.quantity'         =>  'integer',  
         ];
     }
 }

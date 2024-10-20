@@ -34,7 +34,7 @@ class EntranceController extends Controller
         $entrance = Entrance::with('booked_cottages', 'customers_count')->find($id);
         $currentTotalVal = $entrance->total;
         $entrance->total = $currentTotalVal + $request->total;
-        $entrance->save();     
+        $entrance->save();
         
         foreach ($data['bc'] as $bc) {
             $existing_bc = $entrance->booked_cottages->where('cottage_id', $bc['cottage_id'])->first();

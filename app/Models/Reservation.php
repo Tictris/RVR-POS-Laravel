@@ -14,7 +14,8 @@ class Reservation extends Model
         'contact',
         'status',
         'payment',
-        'date_booked'
+        'date_booked',
+        'remarks'
     ];
 
     public function reserved_cottages() {

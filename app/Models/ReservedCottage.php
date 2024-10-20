@@ -19,7 +19,7 @@ class ReservedCottage extends Model
         return $this->belongsTo(Reservation::class);
     }
 
-    public function cottages(){
+    public function cottage(){
         return $this->belongsTo(Cottage::class);
     }
 }
