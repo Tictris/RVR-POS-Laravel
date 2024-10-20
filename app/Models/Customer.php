@@ -18,4 +18,5 @@ class Customer extends Model
     public function customers_count(){
         return $this->hasMany(CustomerCount::class);
     }
+
 }
