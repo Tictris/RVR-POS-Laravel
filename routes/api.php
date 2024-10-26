@@ -34,4 +34,6 @@ Route::controller(EntranceController::class)->group(function (){
 
 Route::controller(ReservationController::class)->group(function (){
     Route::post('create-reservation', 'store');
+    Route::get('display-reservation', 'index');
+    Route::put('update-reservation/{id}', 'update');
 });

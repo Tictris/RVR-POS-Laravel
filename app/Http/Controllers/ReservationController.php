@@ -100,6 +100,7 @@ class ReservationController extends Controller
                 if ($reservedCottage) {
                     $reservedCottage->update($rc);
                 } else {
+                    $rc['reservation_id'] = $reservation->id;
                     ReservedCottage::create($rc);
                 }
             } else {
